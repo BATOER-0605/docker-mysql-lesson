@@ -1,0 +1,18 @@
+services:
+  mysql:
+    image: mysql:latest #使用するdockerイメージ
+    hostname: mysqlsv #コンテナ間で通信する時に用いるhostname
+    restart: always #自動再起動を有効化。dockerエンジンの起動時と、何かしらの要因でコンテナが終了した時に自動(再)起動する
+    container_name: mysql #任意のコンテナ名
+    platform: linux/amd64
+    ports:
+      - "3306:3306" #左側: PCもしくは外部からのアクセスに使用するポート
+                    #右側: 複数コンテナ使用時、コンテナ間での通信で使用するポート
+    environment: #環境変数を設定
+      MYSQL_ROOT_PASSWORD: Kusopass #MySQLのルートパスワード
+      MYSQL_DATABASE: test_database #初めに作成するデータベース名
+      TZ: "Asia/Tokyo" #タイムゾーンの設定
+    volumes:
+      - ./mysql:/var/lib/mysql #mysqlの本体データを格納する場所
+                               #コロンの左側: PC側のパス
+                               #コロンの右側: コンテナ内のパス
